@@ -3,6 +3,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Prorium's Logo for Landing Page</title>
   <style>
+    /* Original styles */
     body {
       display: flex;
       justify-content: center;
@@ -17,6 +18,33 @@
     body.grabbing {
       cursor: grabbing;
     }
+    /* Add corner icon styles */
+    .corner-icon {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      z-index: 1000;
+      text-decoration: none;
+    }
+    .corner-icon:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    .corner-icon img {
+      width: 65px;
+      height: 65x;
+      object-fit: contain;
+    }
+    /* Rest of original styles */
     .prism {
       position: relative;
       width: 200px;
@@ -53,7 +81,6 @@
       background-color: rgba(135, 206, 235, 0.2);
     }
     
-    /* Regular sides */
     .side-1-outer { transform: rotateY(30deg) translateZ(173px); }
     .side-1-inner { transform: rotateY(30deg) translateZ(172px) scaleX(-1); }
     .side-2 { transform: rotateY(90deg) translateZ(173px); }
@@ -94,7 +121,6 @@
       -webkit-user-drag: none;
     }
 
-    /* Rotation guide */
     .rotation-guide {
       position: fixed;
       bottom: 20px;
@@ -114,21 +140,26 @@
       opacity: 1;
     }
   </style>
+  <!-- Add corner icon -->
+  <a href="https://www.prorium.co.jp/" target="_blank" class="corner-icon">
+    <img src="./img/prorium-logo.png" alt="Prorium">
+  </a>
+  
   <div class="prism" style="transition: none; transform: rotateX(-89deg) rotateY(50.3deg);">
     <div class="face bottom">
       <img src="https://static.wixstatic.com/shapes/c0ea98_2e3c71e8d89446f7a4a7c83f18f7c348.svg" alt="Logo" draggable="false">
     </div>
     <!-- Inner and outer faces for side 1 -->
     <div class="face side side-1-inner">
-      <div class="video-inner"><div class="vsc-controller"></div>
-        <video autoplay="" muted="" loop="" draggable="false">
+      <div class="video-inner">
+        <video autoplay muted loop draggable="false">
           <source src="https://video.wixstatic.com/video/168c03_1ed4ee5e0f114805a6490ad9baa6429b/480p/mp4/file.mp4" type="video/mp4">
         </video>
       </div>
     </div>
     <div class="face side side-1-outer">
-      <div class="video-outer"><div class="vsc-controller"></div>
-        <video autoplay="" muted="" loop="" draggable="false">
+      <div class="video-outer">
+        <video autoplay muted loop draggable="false">
           <source src="https://video.wixstatic.com/video/168c03_1ed4ee5e0f114805a6490ad9baa6429b/480p/mp4/file.mp4" type="video/mp4">
         </video>
       </div>
@@ -142,15 +173,15 @@
     
     <!-- Inner and outer faces for side 6 -->
     <div class="face side side-6-inner">
-      <div class="video-inner"><div class="vsc-controller"></div>
-        <video id="video2" autoplay="" muted="" loop="" draggable="false">
+      <div class="video-inner">
+        <video id="video2" autoplay muted loop draggable="false">
           <source src="https://video.wixstatic.com/video/168c03_1ed4ee5e0f114805a6490ad9baa6429b/480p/mp4/file.mp4" type="video/mp4">
         </video>
       </div>
     </div>
     <div class="face side side-6-outer">
-      <div class="video-outer"><div class="vsc-controller"></div>
-        <video id="video2-outer" autoplay="" muted="" loop="" draggable="false">
+      <div class="video-outer">
+        <video id="video2-outer" autoplay muted loop draggable="false">
           <source src="https://video.wixstatic.com/video/168c03_1ed4ee5e0f114805a6490ad9baa6429b/480p/mp4/file.mp4" type="video/mp4">
         </video>
       </div>
@@ -160,7 +191,7 @@
   <div class="rotation-guide">Drag to rotate the prism</div>
 
   <script>
-    // Set different start times for videos
+    // Original JavaScript
     const video2 = document.getElementById('video2');
     const video2Outer = document.getElementById('video2-outer');
     const body = document.body;
@@ -175,7 +206,6 @@
       video2Outer.currentTime = 5;
     });
 
-    // Rotation control
     let isDragging = false;
     let currentRotationX = -15;
     let currentRotationY = 35;
@@ -185,24 +215,20 @@
     let startRotationY = 0;
     let rotationTimer;
 
-    // Prevent dragging on all videos and images
     const nonDraggableElements = document.querySelectorAll('img, video');
     nonDraggableElements.forEach(el => {
       el.addEventListener('dragstart', (e) => e.preventDefault());
       el.setAttribute('draggable', 'false');
     });
 
-    // Show rotation guide briefly
     rotationGuide.classList.add('show');
     setTimeout(() => {
       rotationGuide.classList.remove('show');
     }, 3000);
 
-    // Add rotating class initially
     prism.classList.add('rotating');
 
     function startDragging(e) {
-      // Prevent dragging if the target is an img or video
       if (e.target.tagName.toLowerCase() === 'img' || e.target.tagName.toLowerCase() === 'video') {
         return;
       }
@@ -223,11 +249,9 @@
         body.classList.remove('grabbing');
         
         rotationTimer = setTimeout(() => {
-          // First smoothly return to initial position
           prism.style.transition = 'transform 1s ease';
           prism.style.transform = 'rotateX(-15deg) rotateY(35deg)';
           
-          // After the transition, start the rotation animation
           setTimeout(() => {
             currentRotationX = -15;
             currentRotationY = 35;
@@ -245,11 +269,9 @@
         const deltaX = x - startX;
         const deltaY = y - startY;
         
-        // Update rotations (reduced sensitivity and added dampening)
         currentRotationX = startRotationX - (deltaY * 0.3);
         currentRotationY = startRotationY + (deltaX * 0.3);
         
-        // Limit X rotation to prevent flipping
         currentRotationX = Math.max(-89, Math.min(89, currentRotationX));
         
         prism.style.transition = 'none';
@@ -257,15 +279,12 @@
       }
     }
 
-    // Mouse events
     body.addEventListener('mousedown', startDragging);
     document.addEventListener('mousemove', drag);
     document.addEventListener('mouseup', stopDragging);
 
-    // Touch events
     body.addEventListener('touchstart', startDragging);
     document.addEventListener('touchmove', drag);
     document.addEventListener('touchend', stopDragging);
   </script>
-
 </body></html>
